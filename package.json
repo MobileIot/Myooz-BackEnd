@@ -1,0 +1,26 @@
+{
+  "name": "myooz-backend",
+  "version": "1.0.0",
+  "description": "Backend server for Myooz app.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MobileIot/Myooz-BackEnd.git"
+  },
+  "keywords": [
+    "Myooz"
+  ],
+  "author": "Zhongyi Tong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MobileIot/Myooz-BackEnd/issues"
+  },
+  "homepage": "https://github.com/MobileIot/Myooz-BackEnd#readme",
+  "dependencies": {
+    "restify": "latest"
+  }
+}
