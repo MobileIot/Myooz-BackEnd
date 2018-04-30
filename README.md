@@ -4,6 +4,10 @@
 
 ----
 
+## Note
+
+For all requests except `login`, attach 
+
 ## User Session
 
 #### GET `/profile/:username` **[Tested]**

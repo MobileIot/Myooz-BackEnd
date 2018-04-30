@@ -5,12 +5,15 @@ const {sessionStorage} = require("./sessions.js");
 
 const restify = require("restify");
 const server = restify.createServer();
+const cookieParser = require('restify-cookies');
 
 server.listen(8080, () => {
     console.log("Server started.");
 });
 
 server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser());
+server.use(cookieParser.parse);
 
 const serverState = {
     datastore: initDatastore(credentials),
