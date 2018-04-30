@@ -49,6 +49,63 @@ module.exports.favoriteNoteHandler = serverState => (req, res, next) => {
         });
 };
 
+module.exports.unfavoriteNoteHandler = serverState => (req, res, next) => {
+    const {datastore, sessionStorage} = serverState;
+    const {note_id} = req.params || {};
+    const {sessionKey} = req.cookies || {};
+
+    const username = sessionStorage.getUser(sessionKey);
+
+    if (!note_id) {
+        res.send(400, {
+            message: "Note id can't be empty."
+        });
+        next();
+        return;
+    }
+
+    if (!username) {
+        res.send(400, {
+            message: "Unauthorized."
+        });
+        next();
+        return;
+    }
+
+    datastore.query("select * from myooz.favorites where username=? and note_id=?",
+        [username, note_id], (error, results, fields) => {
+            if (error) {
+                res.send(400, {
+                    message: error
+                });
+                next();
+                return;
+            }
+            if (results.length === 0) {
+                // Not in favorites
+                res.send(400, {
+                    message: "Not in favorites."
+                });
+                next();
+                return;
+            }
+
+            // Note exist
+            datastore.query("delete from myooz.favorites where username=? and note_id=?",
+                [username, note_id],
+                (updateError, updateResults, updateFields) => {
+                    if (updateError) {
+                        res.send(400, {
+                            message: updateError
+                        });
+                    } else {
+                        res.send(200, {});
+                    }
+                });
+            next();
+        });
+};
+
 module.exports.fetchMyFavoritesHandler = serverState => (req, res, next) => {
     const {datastore, sessionStorage} = serverState;
     const {sessionKey} = req.cookies || {};

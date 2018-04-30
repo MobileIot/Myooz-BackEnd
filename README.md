@@ -449,6 +449,23 @@ Get note favorite count.
 
 ***
 
+#### DELETE `/favorites/:note_id`
+
+Unfavorite a note.
+
+**Return**
+
+- HTTP 200: Successful.
+- HTTP 400: Failed.
+
+```json
+{
+  message: "error message"
+}
+```
+
+***
+
 #### GET `/favorites`
 
 Get my favorited notes.
