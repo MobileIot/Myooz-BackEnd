@@ -1,5 +1,5 @@
 const {loginHandler, registerHandler, updateProfileHandler, fetchProfileHandler} = require("./endpoints/users.js");
-const {fetchMuseumInfoHandler} = require("./endpoints/museums.js");
+const {fetchMuseumInfoHandler, fetchAllMuseumInfoHandler} = require("./endpoints/museums.js");
 
 const {initDatastore} = require("./datastore.js");
 const {initObjectStore} = require("./objstore.js");
@@ -32,3 +32,4 @@ server.get("/profile/:username", fetchProfileHandler(serverState));
 
 // Museums
 server.get("/museums/:museum_id", fetchMuseumInfoHandler(serverState));
+server.get("/museums", fetchAllMuseumInfoHandler(serverState));

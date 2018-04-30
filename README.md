@@ -118,6 +118,62 @@ Create a new account.
 
 ***
 
+## Museum Info
+
+#### GET `/museums/:museum_id`
+Get infomation about a museum.
+
+**Return**
+
+ - HTTP 200: Successful.
+```json
+{
+    "id": 2,
+    "name": "Carnegie Museum of Art",
+    "avatar": "https://vacationidea.com/pix/img25Hy8R/ideas/carnegie-museum-of-art_f.jpg"
+}
+```
+ - HTTP 400: Failed.
+```json
+{
+  message: "error message"
+}
+```
+
+
+#### GET `/museums`
+Get a list of museums.
+
+**Return**
+
+ - HTTP 200: Successful.
+```json
+[
+    {
+        "id": 1,
+        "name": "The Metropolitan Museum of Art",
+        "avatar": "https://www.smartdestinations.com/img/pt/dest/Nyc/att/Nyc_Att_The_Metropolitan_Museum_of_Art/gallery/The-Metropolitan-Museum-of-Art-1.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Carnegie Museum of Art",
+        "avatar": "https://vacationidea.com/pix/img25Hy8R/ideas/carnegie-museum-of-art_f.jpg"
+    },
+    {
+        "id": 3,
+        "name": "The Art Institute of Chicago",
+        "avatar": "https://urbanmatter.com/chicago/wp-content/uploads/2015/04/Art-Institute-of-Chicago.jpg"
+    }
+]
+```
+ - HTTP 400: Failed.
+```json
+{
+  message: "error message"
+}
+```
+***
+
 ## Art Info
 
 #### GET `/art/:art_id`
