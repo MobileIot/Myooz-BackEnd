@@ -6,25 +6,24 @@
 
 ## Note
 
-For all requests except `login`, attach 
+For all requests except `login` and `register`, `sessionKey` should be present in the cookies.  
 
 ## User Session
 
 #### GET `/profile/:username` **[Tested]**
 
-Get user profile (avatar).gs
-
-**Payload**
-
-```json
-{
-  avatar: image_url
-}
-```
+Get user profile (avatar).
 
 **Return**
 
 - HTTP 200: Successful.
+
+```json
+{
+  avatar: image_url // FILE:multipart/form-data
+}
+```
+
 - HTTP 400: Failed.
 
 ```json
@@ -33,7 +32,7 @@ Get user profile (avatar).gs
 }
 ```
 
-#### POST `/profile`
+#### POST `/profile` **[Tested]**
 
 Update user profile (avatar).
 
@@ -41,13 +40,20 @@ Update user profile (avatar).
 
 ```json
 {
-  image: image_url
+  avatar: image_data // FILE:multipart/form-data
 }
 ```
 
 **Return**
 
 - HTTP 200: Successful.
+
+```json
+{
+  avatar: image_url
+}
+```
+
 - HTTP 400: Failed.
 
 ```json
@@ -56,7 +62,7 @@ Update user profile (avatar).
 }
 ```
 
-#### POST `/login`
+#### POST `/login` **[Tested]**
 Login to an existing account.
 
 **Payload**
@@ -70,6 +76,12 @@ Login to an existing account.
 **Return**
 
  - HTTP 200: Login successful.
+```json
+{
+  avatar: image_url
+}
+```
+
  - HTTP 400: Login failed.
 ```json
 {
@@ -77,7 +89,7 @@ Login to an existing account.
 }
 ```
 
-#### POST `/register`
+#### POST `/register` **[Tested]**
 Create a new account.
 
 **Payload**
@@ -91,6 +103,12 @@ Create a new account.
 **Return**
 
  - HTTP 200: Register successful.
+```json
+{
+  avatar: image_url
+}
+```
+
  - HTTP 400: Register failed.
 ```json
 {
