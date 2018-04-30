@@ -129,8 +129,16 @@ module.exports.updateProfileHandler = serverState => (req, res, next) => {
                             message: uploadErr
                         });
                     } else {
-                        res.send(200, {
-                            avatar: uploadData.Location
+                        datastore.query("update myooz.users set avatar=? where username=?", [uploadData.Location, username], (updateError, updateResults, updateFields) => {
+                            if (updateError) {
+                                res.send(400, {
+                                    message: updateError
+                                });
+                            } else {
+                                res.send(200, {
+                                    avatar: uploadData.Location
+                                });
+                            }
                         });
                     }
                 });
