@@ -328,7 +328,6 @@ Get notes for an artwork.
     "id": 2,
     "avatar": "https://myooz.s3.amazonaws.com/WechatIMG192.jpeg",
     "content": "It's a public note.",
-    "likes": "\"[]\"",
     "artwork_id": 1,
     "username": "ztong",
     "public": 1
@@ -353,7 +352,6 @@ Query notes with certain conditions (use any combination of museum_id, artist_id
         "id": 1,
         "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT48.jpg",
         "content": "It's a private note.",
-        "likes": "\"[]\"",
         "artwork_id": 1,
         "username": "ztong",
         "public": 0,
@@ -368,7 +366,6 @@ Query notes with certain conditions (use any combination of museum_id, artist_id
         "id": 1,
         "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT48.jpg",
         "content": "It's a public note.",
-        "likes": "\"[]\"",
         "artwork_id": 1,
         "username": "ztong",
         "public": 1,
