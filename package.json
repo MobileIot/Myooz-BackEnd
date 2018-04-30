@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/MobileIot/Myooz-BackEnd#readme",
   "dependencies": {
+    "mysql": "latest",
     "restify": "latest"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
   }
 }

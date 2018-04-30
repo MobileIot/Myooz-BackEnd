@@ -6,7 +6,30 @@
 
 ## User Session
 
-#### POST `/users`
+#### GET `/profile/:username` **[Tested]**
+
+Get user profile (avatar).gs
+
+**Payload**
+
+```json
+{
+  avatar: image_url
+}
+```
+
+**Return**
+
+- HTTP 200: Successful.
+- HTTP 400: Failed.
+
+```json
+{
+  message: "error message"
+}
+```
+
+#### POST `/profile`
 
 Update user profile (avatar).
 
