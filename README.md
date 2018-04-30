@@ -340,8 +340,8 @@ Get notes for an artwork.
 }
 ```
 
-#### GET `/notes?museum_id=?&artist_id=?&room_id=?`
-Query notes with certain conditions (use any combination of museum_id, artist_id and room_id). Returned notes are either public or belong to the user.
+#### GET `/notes?museum_id=?&artist_id=?&room_id=?&my_notes_only=<presentOrNot>`
+Query notes with certain conditions (use any combination of museum_id, artist_id my_notes_only, and room_id). Returned notes are either public or belong to the user.
 
 **Return**
 
@@ -412,12 +412,8 @@ Add a note (notes) for an artwork.
 
 ## Favorites
 
-#### POST `/favorites/:art_id`
-Favorite an artwork.
-
-**Payload**
-
-// None
+#### POST `/favorites/:note_id`
+Favorite a note.
 
 **Return**
 
@@ -429,22 +425,50 @@ Favorite an artwork.
 }
 ```
 
+#### GET `/favorites/:note_id`
+
+Get note favorite count.
+
+**Return**
+
+- HTTP 200: Successful.
+
+```json
+{
+  count: int
+}
+```
+
+- HTTP 400: Failed.
+
+```json
+{
+  message: "error message"
+}
+```
+
+***
+
 #### GET `/favorites`
-Get all favorited artworks.
+
+Get my favorited notes.
 
 **Return**
 
  - HTTP 200: Successful.
 ```json
-[{
-  id: museum_id,
-  name: museum_name,
-  art: [{
-    id: art_id,
-    title: title,
-    image: image_url
-  }]
-}]
+[
+    {
+        "id": 1,
+        "username": "ztong",
+        "note_id": 1
+    },
+    {
+        "id": 2,
+        "username": "ztong",
+        "note_id": 2
+    }
+]
 ```
  - HTTP 400: Failed.
 ```json
