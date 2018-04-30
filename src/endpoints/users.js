@@ -1,5 +1,7 @@
 "use strict";
 
+const DEFAULT_AVATAR_URL = "http://www.zimphysio.org.zw/wp-content/uploads/2018/01/default-avatar-2.jpg";
+
 const passwordHasher = s => {
     let a = 0, c = 0, h, o;
 
@@ -14,8 +16,15 @@ const passwordHasher = s => {
 
 module.exports.loginHandler = serverState => (req, res, next) => {
     const {datastore, sessionStorage} = serverState;
+    const {username, password} = req.body || {};
 
-    const {username, password} = req.body;
+    if (!username || !password) {
+        res.send(400, {
+            message: "Username or password can't be empty"
+        });
+        next();
+        return;
+    }
 
     datastore.query("select * from myooz.users where username=?", [username], (error, results, fields) => {
         if (results.length > 0) {
@@ -41,8 +50,41 @@ module.exports.loginHandler = serverState => (req, res, next) => {
 };
 
 module.exports.registerHandler = serverState => (req, res, next) => {
-    const sessionKey = req.cookies.sessionKey;
-    next();
+    const {datastore, sessionStorage} = serverState;
+    const {username, password} = req.body || {};
+
+    if (!username || !password) {
+        res.send(400, {
+            message: "Username or password can't be empty"
+        });
+        next();
+        return;
+    }
+
+    datastore.query("select * from myooz.users where username=?", [username], (error, results, fields) => {
+        if (results.length > 0) {
+            // User found
+            res.send(400, {
+                message: "The username has been registered."
+            });
+        } else {
+            // New user
+            datastore.query("insert into myooz.users values(?,?,?)", [username, passwordHasher(password), DEFAULT_AVATAR_URL], (addError, addResults, addFields) => {
+                if (error) {
+                    res.send(400, {
+                        message: "Some error occurred during the registration."
+                    });
+                }  else {
+                    const sessionKey = sessionStorage.addUser(username);
+                    res.setCookie("sessionKey", sessionKey, null);
+                    res.send(200, {
+                        avatar: DEFAULT_AVATAR_URL
+                    });
+                }
+            });
+        }
+        next();
+    });
 };
 
 module.exports.updateProfileHandler = serverState => (req, res, next) => {
@@ -52,7 +94,15 @@ module.exports.updateProfileHandler = serverState => (req, res, next) => {
 
 module.exports.fetchProfileHandler = serverState => (req, res, next) => {
     const {datastore, sessionStorage} = serverState;
-    const username = req.params.username;
+    const {username} = req.params || {};
+
+    if (!username) {
+        res.send(400, {
+            message: "Username can't be empty"
+        });
+        next();
+        return;
+    }
 
     datastore.query("select * from myooz.users where username=?", [username], (error, results, fields) => {
         if (results.length > 0) {
