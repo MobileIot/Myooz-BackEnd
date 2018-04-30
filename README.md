@@ -118,7 +118,7 @@ Create a new account.
 
 ***
 
-## Museum Info
+## Museums
 
 #### GET `/museums/:museum_id`
 Get infomation about a museum.
@@ -174,7 +174,7 @@ Get a list of museums.
 ```
 ***
 
-## Artist Info
+## Artists
 
 #### GET `/artists/:artist_id`
 
@@ -238,22 +238,24 @@ Get a list of artists.
 
 ------
 
-## Art Info
+## Artworks
 
-#### GET `/art/:art_id`
+#### GET `/artwork/:artwork_id`
 Get infomation about an artwork.
 
 **Return**
 
  - HTTP 200: Successful.
 ```json
-// More fields TBD
 {
-  id: art_id,
-  title: title,
-  image: image_url,
-  description: description,
-  is_favorite: true_or_false
+    "id": 1,
+    "name": "Garden at Sainte-Adresse",
+    "artist_id": 1,
+    "museum_id": 1,
+    "year": 1867,
+    "description": "Monet spent the summer of 1867 with his family at Sainte-Adresse, a seaside resort near Le Havre. It was there that he painted this buoyant, sunlit scene of contemporary leisure, enlisting his father (shown seated in a panama hat) and other relatives as models. By adopting an elevated viewpoint and painting the terrace, sea, and sky as three distinct bands of high-keyed color, Monet emphasized the flat surface of the canvas. His approach-daring for its time-reflects his admiration for Japanese prints. Twelve years after it was made, Monet exhibited the picture at the fourth Impressionist exhibition of 1879 as Jardin à Sainte-Adresse.",
+    "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT48.jpg",
+    "room_id": 0
 }
 ```
  - HTTP 400: Failed.
@@ -264,64 +266,46 @@ Get infomation about an artwork.
 ```
 
 
-#### GET `/museums`
-Get a list of museums.
+#### GET `/artworks?museum_id=?&artist_id=?&room_id=?`
+Filter artworks with certain conditions (use any combination of museum_id, artist_id and room_id).
 
 **Return**
 
  - HTTP 200: Successful.
 ```json
-// More fields TBD
-[{
-  id: museum_id,
-  name: museum_name
-}]
-```
- - HTTP 400: Failed.
-```json
-{
-  message: "error message"
-}
-```
-
-***
-
-## Nearby
-
-#### GET `/nearby/beacons/:beacon_id`
-Get artworks near a beacon.
-
-**Return**
-
- - HTTP 200: Successful.
-```json
-// More fields TBD
-[{
-  id: art_id,
-  title: title,
-  image: image_url
-}]
-```
- - HTTP 400: Failed.
-```json
-{
-  message: "error message"
-}
-```
-
-#### GET `/nearby/museums/:museum_id`
-Get artworks in a museum.
-
-**Return**
-
- - HTTP 200: Successful.
-```json
-// More fields TBD
-[{
-  id: art_id,
-  title: title,
-  image: image_url
-}]
+// /artworks?museum_id=1&artist_id=1&room_id=1
+[
+    {
+        "id": 135,
+        "name": "La Grenouillère",
+        "artist_id": 1,
+        "museum_id": 1,
+        "year": 1869,
+        "description": "During the summer of 1869, Monet and Renoir set up their easels at La Grenouillère, a boating and bathing resort on the Seine River, not far from Paris. Monet noted on September 25, \"I do have a dream, a painting, the baths of La Grenouillère, for which I have made some bad sketches, but it is only a dream. Renoir, who has just spent two months here, also wants to do this painting.\" Among their various depictions of the subject, this composition closely resembles one by Renoir in the Nationalmuseum, Stockholm.",
+        "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT833.jpg",
+        "room_id": 1
+    },
+    {
+        "id": 137,
+        "name": "Spring (Fruit Trees in Bloom)",
+        "artist_id": 1,
+        "museum_id": 1,
+        "year": 1873,
+        "description": "Monet made this work in the vicinity of his home in Argenteuil, a village on the Seine northwest of Paris that was a favorite gathering place of the Impressionists. Although the scene has previously been called Plum Blossoms and Apples Trees in Bloom, the type of tree cannot be determined from the flurry of white buds evoked by the artist. The pastel shades of spring and the clear light inspired him to represent nature almost purely in terms of color. This was the first painting by Monet to enter the Museum’s collection, via bequest in 1926.",
+        "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT1902.jpg",
+        "room_id": 1
+    },
+    {
+        "id": 139,
+        "name": "Poppy Fields near Argenteuil",
+        "artist_id": 1,
+        "museum_id": 1,
+        "year": 1875,
+        "description": "This work is one of four similar views of the plain of Gennevilliers, just southeast of Argenteuil, which Monet executed in the summer of 1875. He first painted the subject two years earlier in the celebrated Poppies near Argenteuil (Musée d'Orsay, Paris).",
+        "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT1034.jpg",
+        "room_id": 1
+    }
+]
 ```
  - HTTP 400: Failed.
 ```json

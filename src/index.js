@@ -1,6 +1,7 @@
 const {loginHandler, registerHandler, updateProfileHandler, fetchProfileHandler} = require("./endpoints/users.js");
 const {fetchMuseumInfoHandler, fetchAllMuseumInfoHandler} = require("./endpoints/museums.js");
 const {fetchArtistInfoHandler, fetchAllArtistInfoHandler} = require("./endpoints/artists.js");
+const {fetchArtworkHandler, fetchAllArtworksHandler} = require("./endpoints/artworks.js");
 
 const {initDatastore} = require("./datastore.js");
 const {initObjectStore} = require("./objstore.js");
@@ -38,3 +39,7 @@ server.get("/museums", fetchAllMuseumInfoHandler(serverState));
 // Artists
 server.get("/artists/:artist_id", fetchArtistInfoHandler(serverState));
 server.get("/artists", fetchAllArtistInfoHandler(serverState));
+
+// Artworks
+server.get("/artworks/:artwork_id", fetchArtworkHandler(serverState));
+server.get("/artworks", fetchAllArtworksHandler(serverState));
