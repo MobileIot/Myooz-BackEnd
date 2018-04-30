@@ -1,5 +1,6 @@
 "use strict";
 
+const fs = require("fs");
 const DEFAULT_AVATAR_URL = "http://www.zimphysio.org.zw/wp-content/uploads/2018/01/default-avatar-2.jpg";
 
 const passwordHasher = s => {
@@ -74,7 +75,7 @@ module.exports.registerHandler = serverState => (req, res, next) => {
                     res.send(400, {
                         message: "Some error occurred during the registration."
                     });
-                }  else {
+                } else {
                     const sessionKey = sessionStorage.addUser(username);
                     res.setCookie("sessionKey", sessionKey, null);
                     res.send(200, {
@@ -88,12 +89,65 @@ module.exports.registerHandler = serverState => (req, res, next) => {
 };
 
 module.exports.updateProfileHandler = serverState => (req, res, next) => {
-    next();
+    const {datastore, sessionStorage, objstore} = serverState;
+    const {avatar} = req.files || {};
+    const {sessionKey} = req.cookies || {};
+
+    const username = sessionStorage.getUser(sessionKey);
+
+    if (!username) {
+        res.send(400, {
+            message: "Unauthorized."
+        });
+        next();
+        return;
+    }
+
+    if (!avatar) {
+        res.send(400, {
+            message: "Avatar can't be empty"
+        });
+        next();
+        return;
+    }
+
+    datastore.query("select * from myooz.users where username=?", [username], (error, results, fields) => {
+        if (results.length > 0) {
+            // User found
+            fs.readFile(avatar.path, (err, data) => {
+                if (err) {
+                    res.send(400, {
+                        message: err
+                    });
+                    next();
+                    return;
+                }
+
+                objstore(avatar.name, new Buffer(data, "binary"), (uploadErr, uploadData) => {
+                    if (uploadErr) {
+                        res.send(400, {
+                            message: uploadErr
+                        });
+                    } else {
+                        res.send(200, {
+                            avatar: uploadData.Location
+                        });
+                    }
+                });
+            });
+        } else {
+            // User doest not exist
+            res.send(400, {
+                message: "User does not exist."
+            });
+        }
+        next();
+    })
 };
 
 
 module.exports.fetchProfileHandler = serverState => (req, res, next) => {
-    const {datastore, sessionStorage} = serverState;
+    const {datastore} = serverState;
     const {username} = req.params || {};
 
     if (!username) {

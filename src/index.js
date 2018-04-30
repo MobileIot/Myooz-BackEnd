@@ -1,5 +1,6 @@
 const {loginHandler, registerHandler, updateProfileHandler, fetchProfileHandler} = require("./endpoints/users.js");
 const {initDatastore} = require("./datastore.js");
+const {initObjectStore} = require("./objstore.js");
 const {credentials} = require("./credentials.js");
 const {sessionStorage} = require("./sessions.js");
 
@@ -17,6 +18,7 @@ server.use(cookieParser.parse);
 
 const serverState = {
     datastore: initDatastore(credentials),
+    objstore: initObjectStore(credentials),
     sessionStorage: sessionStorage
 };
 

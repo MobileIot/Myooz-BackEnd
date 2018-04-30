@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/MobileIot/Myooz-BackEnd#readme",
   "dependencies": {
+    "aws-sdk": "^2.229.1",
     "mysql": "latest",
     "restify": "latest",
     "restify-cookies": "^0.2.5"

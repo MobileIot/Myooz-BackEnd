@@ -1,9 +1,7 @@
 const mysql = require("mysql");
 
-let connection;
-
 module.exports.initDatastore = credentials => {
-    connection = mysql.createConnection({
+    const connection = mysql.createConnection({
         host: credentials.RDS_HOSTNAME,
         user: credentials.RDS_USERNAME,
         password: credentials.RDS_PASSWORD,
