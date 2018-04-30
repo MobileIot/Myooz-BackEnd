@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs");
 const DEFAULT_AVATAR_URL = "http://www.zimphysio.org.zw/wp-content/uploads/2018/01/default-avatar-2.jpg";
 

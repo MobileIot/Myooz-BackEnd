@@ -1,4 +1,6 @@
 const {loginHandler, registerHandler, updateProfileHandler, fetchProfileHandler} = require("./endpoints/users.js");
+const {fetchMuseumInfoHandler} = require("./endpoints/museums.js");
+
 const {initDatastore} = require("./datastore.js");
 const {initObjectStore} = require("./objstore.js");
 const {credentials} = require("./credentials.js");
@@ -27,3 +29,6 @@ server.post("/login", loginHandler(serverState));
 server.post("/register", registerHandler(serverState));
 server.post("/profile", updateProfileHandler(serverState));
 server.get("/profile/:username", fetchProfileHandler(serverState));
+
+// Museums
+server.get("/museums/:museum_id", fetchMuseumInfoHandler(serverState));
