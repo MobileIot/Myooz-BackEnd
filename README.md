@@ -10,7 +10,7 @@ For all requests except `login` and `register`, `sessionKey` should be present i
 
 ## User Session
 
-#### GET `/profile/:username` **[Tested]**
+#### GET `/profile/:username`
 
 Get user profile (avatar).
 
@@ -32,7 +32,7 @@ Get user profile (avatar).
 }
 ```
 
-#### POST `/profile` **[Tested]**
+#### POST `/profile`
 
 Update user profile (avatar).
 
@@ -62,7 +62,7 @@ Update user profile (avatar).
 }
 ```
 
-#### POST `/login` **[Tested]**
+#### POST `/login`
 Login to an existing account.
 
 **Payload**
@@ -89,7 +89,7 @@ Login to an existing account.
 }
 ```
 
-#### POST `/register` **[Tested]**
+#### POST `/register`
 Create a new account.
 
 **Payload**
@@ -173,6 +173,70 @@ Get a list of museums.
 }
 ```
 ***
+
+## Artist Info
+
+#### GET `/artists/:artist_id`
+
+Get infomation about an artist.
+
+**Return**
+
+- HTTP 200: Successful.
+
+```json
+{
+    "id": 1,
+    "name": "Claude Monet",
+    "avatar": "https://s-media-cache-ak0.pinimg.com/originals/da/1e/f8/da1ef8217982e1250c370460fa2b30d3.jpg"
+}
+```
+
+- HTTP 400: Failed.
+
+```json
+{
+  message: "error message"
+}
+```
+
+#### GET `/artists`
+
+Get a list of artists.
+
+**Return**
+
+- HTTP 200: Successful.
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Claude Monet",
+        "avatar": "https://s-media-cache-ak0.pinimg.com/originals/da/1e/f8/da1ef8217982e1250c370460fa2b30d3.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Vincent van Gogh",
+        "avatar": "https://courtauld.ac.uk/wp-content/uploads/port/ol/P-1948-SC-175-tif-10587-e1468233592690.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Pablo Picasso",
+        "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Portrait_de_Picasso%2C_1908.jpg/230px-Portrait_de_Picasso%2C_1908.jpg"
+    }
+]
+```
+
+- HTTP 400: Failed.
+
+```json
+{
+  message: "error message"
+}
+```
+
+------
 
 ## Art Info
 
