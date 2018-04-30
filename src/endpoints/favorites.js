@@ -50,9 +50,53 @@ module.exports.favoriteNoteHandler = serverState => (req, res, next) => {
 };
 
 module.exports.fetchMyFavoritesHandler = serverState => (req, res, next) => {
-    next();
+    const {datastore, sessionStorage} = serverState;
+    const {sessionKey} = req.cookies || {};
+
+    const username = sessionStorage.getUser(sessionKey);
+
+    if (!username) {
+        res.send(400, {
+            message: "Unauthorized."
+        });
+        next();
+        return;
+    }
+
+    datastore.query("select * from myooz.favorites where username=?",
+        [username], (error, results, fields) => {
+            if (results.length > 0) {
+                res.send(200, results);
+            } else {
+                res.send(400, {
+                    message: "Already in favorites."
+                });
+            }
+            next();
+        });
 };
 
-module.exports.fetchNoteFavoriteInfoHandler = serverState => (req, res, next) => {
-    next();
+module.exports.fetchNoteFavoriteCountHandler = serverState => (req, res, next) => {
+    const {datastore, sessionStorage} = serverState;
+    const {note_id} = req.params || {};
+
+    if (!note_id) {
+        res.send(400, {
+            message: "Note id can't be empty."
+        });
+        next();
+        return;
+    }
+
+    datastore.query("select count(*) as count from myooz.favorites where note_id=?",
+        [note_id], (error, results, fields) => {
+            if (results.length > 0) {
+                res.send(200, results);
+            } else {
+                res.send(400, {
+                    count: 0
+                });
+            }
+            next();
+        });
 };
