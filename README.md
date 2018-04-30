@@ -4,6 +4,10 @@
 
 ----
 
+## API Server
+
+http://ec2-34-227-148-107.compute-1.amazonaws.com:8080/
+
 ## Note
 
 For all requests except `login` and `register`, `sessionKey` should be present in the cookies.  
