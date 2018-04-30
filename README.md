@@ -267,7 +267,7 @@ Get infomation about an artwork.
 
 
 #### GET `/artworks?museum_id=?&artist_id=?&room_id=?`
-Filter artworks with certain conditions (use any combination of museum_id, artist_id and room_id).
+Query artworks with certain conditions (use any combination of museum_id, artist_id and room_id).
 
 **Return**
 
@@ -317,19 +317,22 @@ Filter artworks with certain conditions (use any combination of museum_id, artis
 ***
 
 ## Notes
-#### GET `/notes/:art_id`
+#### GET `/notes/:note_id`
 Get notes for an artwork.
 
 **Return**
 
  - HTTP 200: Successful.
 ```json
-// More fields TBD
-[{
-  id: note_id,
-  content: content,
-  image: image_url
-}]
+{
+    "id": 2,
+    "avatar": "https://myooz.s3.amazonaws.com/WechatIMG192.jpeg",
+    "content": "It's a public note.",
+    "likes": "\"[]\"",
+    "artwork_id": 1,
+    "username": "ztong",
+    "public": 1
+}
 ```
  - HTTP 400: Failed.
 ```json
@@ -338,25 +341,45 @@ Get notes for an artwork.
 }
 ```
 
-#### GET `/notes`
-Get notes the user has taken.
+#### GET `/notes?museum_id=?&artist_id=?&room_id=?`
+Query notes with certain conditions (use any combination of museum_id, artist_id and room_id). Returned notes are either public or belong to the user.
 
 **Return**
 
  - HTTP 200: Successful.
 ```json
-// More fields TBD
-[{
-  id: museum_id,
-  name: museum_name,
-  notes: [{
-    id: note_id,
-    content: content,
-    image: image_url,
-    time: time,
-    likes: int
-  }]
-}]
+[
+    {
+        "id": 1,
+        "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT48.jpg",
+        "content": "It's a private note.",
+        "likes": "\"[]\"",
+        "artwork_id": 1,
+        "username": "ztong",
+        "public": 0,
+        "name": "Garden at Sainte-Adresse",
+        "artist_id": 1,
+        "museum_id": 1,
+        "year": 1867,
+        "description": "Monet spent the summer of 1867 with his family at Sainte-Adresse, a seaside resort near Le Havre. It was there that he painted this buoyant, sunlit scene of contemporary leisure, enlisting his father (shown seated in a panama hat) and other relatives as models. By adopting an elevated viewpoint and painting the terrace, sea, and sky as three distinct bands of high-keyed color, Monet emphasized the flat surface of the canvas. His approach-daring for its time-reflects his admiration for Japanese prints. Twelve years after it was made, Monet exhibited the picture at the fourth Impressionist exhibition of 1879 as Jardin à Sainte-Adresse.",
+        "room_id": 0
+    },
+    {
+        "id": 1,
+        "avatar": "https://images.metmuseum.org/CRDImages/ep/web-large/DT48.jpg",
+        "content": "It's a public note.",
+        "likes": "\"[]\"",
+        "artwork_id": 1,
+        "username": "ztong",
+        "public": 1,
+        "name": "Garden at Sainte-Adresse",
+        "artist_id": 1,
+        "museum_id": 1,
+        "year": 1867,
+        "description": "Monet spent the summer of 1867 with his family at Sainte-Adresse, a seaside resort near Le Havre. It was there that he painted this buoyant, sunlit scene of contemporary leisure, enlisting his father (shown seated in a panama hat) and other relatives as models. By adopting an elevated viewpoint and painting the terrace, sea, and sky as three distinct bands of high-keyed color, Monet emphasized the flat surface of the canvas. His approach-daring for its time-reflects his admiration for Japanese prints. Twelve years after it was made, Monet exhibited the picture at the fourth Impressionist exhibition of 1879 as Jardin à Sainte-Adresse.",
+        "room_id": 0
+    }
+]
 ```
  - HTTP 400: Failed.
 ```json
@@ -365,16 +388,17 @@ Get notes the user has taken.
 }
 ```
 
-#### POST `/notes/:art_id`
+#### POST `/notes/`
 Add a note (notes) for an artwork.
 
 **Payload**
 
 ```json
 [{
-  image: image,
-  content: content,
-  public: trueOrFalse
+  content: "Test note",
+  artwork_id: 1,
+  is_public: 1/0,
+  avatar: image_file // FILE
 }]
 ```
 **Return**
