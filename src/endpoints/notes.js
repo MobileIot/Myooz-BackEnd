@@ -84,7 +84,6 @@ module.exports.createNoteHandler = serverState => (req, res, next) => {
     const {avatar} = req.files || {};
     const {sessionKey} = req.cookies || {};
 
-    const likes = JSON.stringify("[]");
     const username = sessionStorage.getUser(sessionKey);
 
     if (!content || !artwork_id || is_public === undefined || !avatar) {
@@ -118,9 +117,9 @@ module.exports.createNoteHandler = serverState => (req, res, next) => {
                     message: uploadErr
                 });
             } else {
-                datastore.query("insert into myooz.notes (avatar, content, likes, artwork_id, username, public)" +
-                    " values (?, ?, ?, ?, ?, ?)",
-                    [uploadData.Location, content, likes, artwork_id, username, is_public],
+                datastore.query("insert into myooz.notes (avatar, content, artwork_id, username, public)" +
+                    " values (?, ?, ?, ?, ?)",
+                    [uploadData.Location, content, artwork_id, username, is_public],
                     (updateError, updateResults, updateFields) => {
                         if (updateError) {
                             res.send(400, {
@@ -134,4 +133,45 @@ module.exports.createNoteHandler = serverState => (req, res, next) => {
             next();
         });
     });
+};
+
+
+module.exports.updateNoteHandler = serverState => (req, res, next) => {
+    const {datastore, objstore, sessionStorage} = serverState;
+    const {content, note_id} = req.params || {};
+    const {sessionKey} = req.cookies || {};
+
+    const username = sessionStorage.getUser(sessionKey);
+
+    if (!content || !note_id) {
+        res.send(400, {
+            message: "Note content, artwork id, avatar and privacy can't be empty."
+        });
+        next();
+        return;
+    }
+
+    if (!username) {
+        res.send(400, {
+            message: "Unauthorized."
+        });
+        next();
+        return;
+    }
+
+    datastore.query("update myooz.notes set content=?" +
+        " where id=?",
+        [content, note_id],
+        (updateError, updateResults, updateFields) => {
+            if (updateError) {
+                res.send(400, {
+                    message: updateError
+                });
+            } else {
+                res.send(200, {
+                    message: "Update successful."
+                });
+            }
+        });
+    next();
 };

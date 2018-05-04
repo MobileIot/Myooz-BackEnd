@@ -2,7 +2,7 @@ const {loginHandler, registerHandler, updateProfileHandler, fetchProfileHandler}
 const {fetchMuseumInfoHandler, fetchAllMuseumInfoHandler} = require("./endpoints/museums.js");
 const {fetchArtistInfoHandler, fetchAllArtistInfoHandler} = require("./endpoints/artists.js");
 const {fetchArtworkHandler, fetchAllArtworksHandler} = require("./endpoints/artworks.js");
-const {fetchNoteHandler, fetchAllNotesHandler, createNoteHandler} = require("./endpoints/notes.js");
+const {fetchNoteHandler, fetchAllNotesHandler, createNoteHandler, updateNoteHandler} = require("./endpoints/notes.js");
 const {fetchMyFavoritesHandler, fetchNoteFavoriteCountHandler, favoriteNoteHandler, unfavoriteNoteHandler} = require("./endpoints/favorites.js");
 
 const {initDatastore} = require("./datastore.js");
@@ -50,6 +50,7 @@ server.get("/artworks", fetchAllArtworksHandler(serverState));
 server.get("/notes/:note_id", fetchNoteHandler(serverState));
 server.get("/notes", fetchAllNotesHandler(serverState));
 server.post("/notes", createNoteHandler(serverState));
+server.put("/notes/:note_id", updateNoteHandler(serverState));
 
 // Favorites
 server.get("/favorites/:note_id", fetchNoteFavoriteCountHandler(serverState));

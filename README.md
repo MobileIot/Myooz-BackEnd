@@ -344,7 +344,42 @@ Get notes for an artwork.
 }
 ```
 
+***
+
+#### PUT `/notes/:note_id`
+
+Update the content of a note.
+
+**Payload**
+
+```json
+[{
+  content: "Updated note"
+}]
+```
+
+**Return**
+
+- HTTP 200: Successful.
+
+```json
+{
+  message: "Update successful."
+}
+```
+
+- HTTP 400: Failed.
+
+```json
+{
+  message: "error message"
+}
+```
+
+***
+
 #### GET `/notes?museum_id=?&artist_id=?artwork_id=?&room_id=?&my_notes_only=<presentOrNot>`
+
 Query notes with certain conditions (use any combination of museum_id, artist_id, artwork_id, my_notes_only, and room_id). Returned notes are either public or belong to the user.
 
 **Return**
@@ -389,7 +424,7 @@ Query notes with certain conditions (use any combination of museum_id, artist_id
 }
 ```
 
-#### POST `/notes/`
+#### POST `/notes`
 Add a note (notes) for an artwork.
 
 **Payload**
