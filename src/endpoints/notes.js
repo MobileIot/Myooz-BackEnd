@@ -145,7 +145,7 @@ module.exports.updateNoteHandler = serverState => (req, res, next) => {
 
     if (!content || !note_id) {
         res.send(400, {
-            message: "Note content, artwork id, avatar and privacy can't be empty."
+            message: "Note content and id can't be empty."
         });
         next();
         return;
@@ -160,8 +160,8 @@ module.exports.updateNoteHandler = serverState => (req, res, next) => {
     }
 
     datastore.query("update myooz.notes set content=?" +
-        " where id=?",
-        [content, note_id],
+        " where id=? and username=?",
+        [content, note_id, username],
         (updateError, updateResults, updateFields) => {
             if (updateError) {
                 res.send(400, {
@@ -174,4 +174,54 @@ module.exports.updateNoteHandler = serverState => (req, res, next) => {
             }
         });
     next();
+};
+
+
+module.exports.deleteNoteHandler = serverState => (req, res, next) => {
+    const {datastore, objstore, sessionStorage} = serverState;
+    const {note_id} = req.params || {};
+    const {sessionKey} = req.cookies || {};
+
+    const username = sessionStorage.getUser(sessionKey);
+
+    if (!note_id) {
+        res.send(400, {
+            message: "Note id can't be empty."
+        });
+        next();
+        return;
+    }
+
+    if (!username) {
+        res.send(400, {
+            message: "Unauthorized."
+        });
+        next();
+        return;
+    }
+
+    datastore.query("select * from myooz.notes where id=? and username=?",
+        [note_id, username], (error, results, fields) => {
+            if (results.length === 0) {
+                res.send(400, {
+                    message: "Note does not exist."
+                });
+                next();
+                return;
+            }
+            datastore.query("delete from myooz.notes where id=? and username=?",
+                [note_id, username],
+                (updateError, updateResults, updateFields) => {
+                    if (updateError) {
+                        res.send(400, {
+                            message: updateError
+                        });
+                    } else {
+                        res.send(200, {
+                            message: "Delete successful."
+                        });
+                    }
+                });
+            next();
+        });
 };

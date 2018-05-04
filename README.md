@@ -346,6 +346,30 @@ Get notes for an artwork.
 
 ***
 
+#### DELETE `/notes/:note_id`
+
+Delete a note.
+
+**Return**
+
+- HTTP 200: Successful.
+
+```json
+{
+  message: "Delete successful."
+}
+```
+
+- HTTP 400: Failed.
+
+```json
+{
+  message: "error message"
+}
+```
+
+***
+
 #### PUT `/notes/:note_id`
 
 Update the content of a note.
@@ -376,7 +400,7 @@ Update the content of a note.
 }
 ```
 
-***
+------
 
 #### GET `/notes?museum_id=?&artist_id=?artwork_id=?&room_id=?&my_notes_only=<presentOrNot>`
 
