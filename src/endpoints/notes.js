@@ -61,21 +61,10 @@ module.exports.fetchAllNotesHandler = serverState => (req, res, next) => {
                 res.send(400, {
                     message: error
                 });
-                next();
-                return;
-            }
-
-            if (results.length > 0) {
-                // Note found
+            } else {
                 res.send(200, results);
-                next();
-                return;
             }
 
-            // Note doest not exist
-            res.send(400, {
-                message: "Note does not exist."
-            });
             next();
         });
 };
