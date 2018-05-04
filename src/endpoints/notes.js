@@ -47,6 +47,14 @@ module.exports.fetchAllNotesHandler = serverState => (req, res, next) => {
 
     const username = sessionStorage.getUser(sessionKey);
 
+    if (my_notes_only && !username) {
+        res.send(400, {
+            message: "User name has to be specified."
+        });
+        next();
+        return;
+    }
+
     datastore.query("select * from myooz.notes join myooz.artworks" +
         " where notes.artwork_id = artworks.id" +
         " and artworks.museum_id like ?" +
@@ -54,7 +62,7 @@ module.exports.fetchAllNotesHandler = serverState => (req, res, next) => {
         " and artworks.room_id like ?" +
         " and artworks.id like ?" +
         " and notes.username like ?" +
-        " and (notes.public=1 or notes.username like?)",
+        " and (notes.public=1 or notes.username like ?)",
         [museum_id || "%%", artist_id || "%%", room_id || "%%", artwork_id || "%%", my_notes_only ? username : "%%", username || "%%"],
         (error, results, fields) => {
             if (error) {

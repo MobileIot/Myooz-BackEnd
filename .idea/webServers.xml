@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="86642c9a-975c-437c-8047-9add86794277" name="Myooz" url="">
+        <fileTransfer host="ec2-34-227-148-107.compute-1.amazonaws.com" port="22" privateKey="$PROJECT_DIR$/../mobile-iot.pem" rootFolder="/home/ubuntu/" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
