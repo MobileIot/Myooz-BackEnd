@@ -344,8 +344,8 @@ Get notes for an artwork.
 }
 ```
 
-#### GET `/notes?museum_id=?&artist_id=?&room_id=?&my_notes_only=<presentOrNot>`
-Query notes with certain conditions (use any combination of museum_id, artist_id my_notes_only, and room_id). Returned notes are either public or belong to the user.
+#### GET `/notes?museum_id=?&artist_id=?artwork_id=?&room_id=?&my_notes_only=<presentOrNot>`
+Query notes with certain conditions (use any combination of museum_id, artist_id, artwork_id, my_notes_only, and room_id). Returned notes are either public or belong to the user.
 
 **Return**
 

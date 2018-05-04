@@ -41,7 +41,7 @@ module.exports.fetchNoteHandler = serverState => (req, res, next) => {
 
 module.exports.fetchAllNotesHandler = serverState => (req, res, next) => {
     const {datastore, sessionStorage} = serverState;
-    const {museum_id, artist_id, room_id, my_notes_only} = req.query || {};
+    const {museum_id, artist_id, artwork_id, room_id, my_notes_only} = req.query || {};
 
     const {sessionKey} = req.cookies || {};
 
@@ -52,9 +52,10 @@ module.exports.fetchAllNotesHandler = serverState => (req, res, next) => {
         " and artworks.museum_id like ?" +
         " and artworks.artist_id like ?" +
         " and artworks.room_id like ?" +
+        " and artworks.id like ?" +
         " and notes.username like ?" +
         " and (notes.public=1 or notes.username like?)",
-        [museum_id || "%%", artist_id || "%%", room_id || "%%", my_notes_only ? username : "%%", username || "%%"],
+        [museum_id || "%%", artist_id || "%%", room_id || "%%", artwork_id || "%%", my_notes_only ? username : "%%", username || "%%"],
         (error, results, fields) => {
             if (error) {
                 res.send(400, {
